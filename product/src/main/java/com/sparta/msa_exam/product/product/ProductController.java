@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/products")
 public class ProductController {
 
     private final ProductService productService;
@@ -18,15 +19,21 @@ public class ProductController {
 //    private String serverPort;
 
     // 상품 추가 API
-    @PostMapping("/products")
+    @PostMapping
     public ProductResponseDto createProduct(@RequestBody ProductRequestDto productRequestDto){
 
         return productService.createProduct(productRequestDto);
     }
 
     // 상품 전체 목록 조회 API
-    @GetMapping("/products")
+    @GetMapping
     public List<ProductResponseDto> getProducts() {
         return productService.getProducts();
+    }
+
+    // +) product 정보 돌려주는 API
+    @GetMapping("/{id}")
+    public ProductResponseDto getProduct(@PathVariable("id") Long id) {
+        return productService.getProductDetails(id);
     }
 }

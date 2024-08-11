@@ -4,7 +4,9 @@ import com.sparta.msa_exam.product.dto.ProductRequestDto;
 import com.sparta.msa_exam.product.dto.ProductResponseDto;
 import com.sparta.msa_exam.product.entity.Product;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,5 +29,11 @@ public class ProductService {
             responseDtoList.add(new ProductResponseDto(product));
         }
         return responseDtoList;
+    }
+
+    public ProductResponseDto getProductDetails(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "상품을 찾을 수 없습니다."));
+        return new ProductResponseDto(product);
     }
 }

@@ -1,14 +1,15 @@
 package com.sparta.msa_exam.order.order;
 
-import com.sparta.msa_exam.order.ProductClient;
+
+import com.sparta.msa_exam.order.client.ProductClient;
 import com.sparta.msa_exam.order.dto.OrderProductRequestDto;
 import com.sparta.msa_exam.order.dto.OrderRequestDto;
 import com.sparta.msa_exam.order.dto.OrderResponseDto;
+import com.sparta.msa_exam.order.dto.ProductResponseDto;
 import com.sparta.msa_exam.order.entity.Order;
 import com.sparta.msa_exam.order.entity.OrderProduct;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -40,11 +41,11 @@ public class OrderService {
         // 주문이 존재하는지 확인
         Order order = orderRespository.findById(orderId)
                 .orElseThrow(
-                        ()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "상품이 존재하지 않습니다.")
+                        ()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "주문이 존재하지 않습니다.")
                 );
 
         // 상품이 실제로 존재하는지 확인
-        String productInfo = productClient.getProduct(requestDto.getProductId().toString());
+        ProductResponseDto productInfo = productClient.getProduct(requestDto.getProductId());
         if (productInfo == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "상품이 존재하지 않습니다.");
         }
@@ -61,7 +62,7 @@ public class OrderService {
     public OrderResponseDto getOrder(Long orderId) {
         // 주문이 존재하는지 확인
         Order order = orderRespository.findById(orderId)                .orElseThrow(
-                ()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "상품이 존재하지 않습니다.")
+                ()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "주문이 존재하지 않습니다.")
         );
 
         return new OrderResponseDto(order);

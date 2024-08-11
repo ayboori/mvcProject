@@ -5,6 +5,7 @@ import com.sparta.msa_exam.order.dto.OrderRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -23,7 +24,7 @@ public class Order {
     // 중간 테이블을 OneToMany로 가지고 있음
    @Column
    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderProduct> orderProducts;
+    private List<OrderProduct> orderProducts  = new ArrayList<>(); // 빈 리스트로 초기화;
 
    public Order(OrderRequestDto requestDto){
        this.name = requestDto.getName();

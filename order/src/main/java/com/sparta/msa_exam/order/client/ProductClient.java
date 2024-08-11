@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "product-service")
 public interface ProductClient {
 
-    // endpoint의 product id값을 가져옴
-    @GetMapping("/product/{id}")
-    ProductResponseDto getProduct(@PathVariable("id") String id);
+    // endpoint의 ProductResponseDto를 가져옴
+    @GetMapping("/products/{id}")
+    ProductResponseDto getProduct(@PathVariable("id") Long id);
 }

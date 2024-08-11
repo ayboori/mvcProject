@@ -16,6 +16,6 @@ public class ProductResponseDto {
     public ProductResponseDto(Product product){
         this.id = product.getId();
         this.name = product.getName();
-        this.supply_price = getSupply_price();
+        this.supply_price = product.getSupply_price();
     }
 }
