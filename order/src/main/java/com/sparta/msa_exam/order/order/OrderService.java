@@ -44,6 +44,14 @@ public class OrderService {
                         ()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "주문이 존재하지 않습니다.")
                 );
 
+        // 중복된 상품이 이미 추가되어 있는지 확인
+        boolean productExists = order.getOrderProducts().stream()
+                .anyMatch(op -> op.getProductId().equals(requestDto.getProductId()));
+
+        if (productExists) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "이 주문에는 이미 해당 상품이 추가되어 있습니다.");
+        }
+
         // 상품이 실제로 존재하는지 확인
         ProductResponseDto productInfo = productClient.getProduct(requestDto.getProductId());
         if (productInfo == null) {
